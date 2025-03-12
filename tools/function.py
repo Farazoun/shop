@@ -2,7 +2,7 @@ from traceback import print_tb
 
 import pandas as pd
 
-df = pd.read_csv('../database/products.csv')
+df = pd.read_csv('../database/warehouse.csv')
 
 
 def show_products(df):
@@ -12,24 +12,65 @@ def show_products(df):
         print(f"{row['id']} | {row['name']:<7}   | {row['price']}")
 
 
+cart = []
 
 
+def add_to_cart(warehouse: pd.DataFrame, shoplist: pd.DataFrame, product: str) -> pd.DataFrame:
+    '''
+    this functions use for adding prodouct to shoping list
+    '''
+    show_products(df)
+    status = False
+    if product in warehouse['name'].values:
+        status = True
+    if status:
+        new_row = {'name': product}
+        shoplist.loc[len(shoplist)] = new_row
+    show_products(df)
 
-show_products(df)
+    return shoplist
 
 
+def remove_from_cart(shoplist: pd.DataFrame, product: str) -> pd.DataFrame:
+    '''
+        this functions use for removing prodouct from shoping list
+    '''
+    show_products(df)
+    status = False
+    if product in shoplist['name'].values:
+        status = True
+    if status:
+        shoplist[shoplist['name'] != product]
+    show_products(df)
+
+    return shoplist
 
 
+def rearrange_cart(shoplist: pd.DataFrame, product: str, product2: str) -> pd.DataFrame:
+    '''
+            this functions use for rearrange prodouct from shoping list
+    '''
+    show_products(df)
+    if product in shoplist['name'].values and product2 in shoplist['name'].values:
+        index1 = shoplist[shoplist['name'] == product].index[0]
+        index2 = shoplist[shoplist['name'] == product2].index[0]
+
+        shoplist.iloc[[index1, index2]] = shoplist.iloc[[index2, index1]].values
+    show_products(df)
+
+    return shoplist
+
+# -------------------------------------------------------
+# shop_list = []
+# data = {'name': ['Ali', 'Sara', 'Reza']}
+# df = pd.DataFrame(data)
+# df2 = pd.read_csv('../database/warehouse.csv')
+# shop=add_to_cart(df2,df,'faraz')
+# shop=add_to_cart(df2,shop,'faraz')
+# print(shop)
+# -----------------------------------------------------------
 
 
-#     # نمایش لیست محصولات در قالب جدول
-#     print("\nProduct List:")
-#     print("+----+------------+---------+")
-#     print("| ID |   Name     |  Price  |")
-#     print("+----+------------+---------+")
-#     for product in df:
-#         print(f"| {product['id']:2} | {product['name']:10} | {product['price']:7} |")
-#     print("+----+------------+---------+")
 #
 #
 #
