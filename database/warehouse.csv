@@ -1,6 +1,5 @@
-id,name,price
-1,Bread,5000
-2,Milk,15000
-3,Eggs,30000
-4,Cheese,25000
-5,faraz,90000
+name,price
+Bread,5000
+Milk,15000
+Eggs,30000
+Cheese,25000
